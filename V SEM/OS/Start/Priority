@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <limits.h>
+
+// Function to calculate times
+void calculate_times(int n, int arrival_time[], int burst_time[], int priority[], 
+                     int remaining_time[], int completion_time[], int turnaround_time[], int waiting_time[]) {
+    int current_time = 0, completed = 0;
+    int highest_priority, selected_process;
+
+    while (completed < n) {
+        highest_priority = INT_MIN;
+        selected_process = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (arrival_time[i] <= current_time && remaining_time[i] > 0 && priority[i] > highest_priority) {
+                highest_priority = priority[i];
+                selected_process = i;
+            }
+        }
+
+        if (selected_process == -1) {
+            current_time++;
+            continue;
+        }
+
+        remaining_time[selected_process]--;
+        current_time++;
+
+        if (remaining_time[selected_process] == 0) {
+            completion_time[selected_process] = current_time;
+            turnaround_time[selected_process] = completion_time[selected_process] - arrival_time[selected_process];
+            waiting_time[selected_process] = turnaround_time[selected_process] - burst_time[selected_process];
+            completed++;
+        }
+    }
+}
+
+// Function to print the results table
+void print_table(int n, int arrival_time[], int burst_time[], int priority[], 
+                  int completion_time[], int turnaround_time[], int waiting_time[]) {
+    printf("\nProcess\tArrival Time\tBurst Time\tPriority\tCompletion Time\tTurnaround Time\tWaiting Time\n");
+    printf("--------------------------------------------------------------------------------------\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("P%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n",
+               i + 1,
+               arrival_time[i],
+               burst_time[i],
+               priority[i],
+               completion_time[i],
+               turnaround_time[i],
+               waiting_time[i]);
+    }
+
+    printf("--------------------------------------------------------------------------------------\n");
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    // Declare arrays to hold data for processes
+    int arrival_time[n], burst_time[n], priority[n];
+    int remaining_time[n], completion_time[n], turnaround_time[n], waiting_time[n];
+
+    // Input process details
+    for (int i = 0; i < n; i++) {
+        printf("Enter arrival time, burst time, and priority for process P%d: ", i + 1);
+        scanf("%d %d %d", &arrival_time[i], &burst_time[i], &priority[i]);
+        remaining_time[i] = burst_time[i];
+    }
+
+    // Calculate the times
+    calculate_times(n, arrival_time, burst_time, priority, remaining_time, completion_time, turnaround_time, waiting_time);
+
+    // Print the results
+    print_table(n, arrival_time, burst_time, priority, completion_time, turnaround_time, waiting_time);
+
+    return 0;
+}

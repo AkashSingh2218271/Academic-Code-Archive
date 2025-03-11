@@ -3,14 +3,14 @@
 %}
 
 %%
-[0-9]*[.][0-9]+ {printf("Floating point number\n");}
-[0-9]+ {printf("Integer\n");}
-. {printf("Not a floating point number\n");}
-\n exit(0);
+^[-+]?[0-9]+ { printf("Valid Integer"); }
+^[-+]?[0-9]*[.][0-9]+ { printf("Valid Floating point number"); }
+.* { printf("Not a valid number"); }
+\n { return 0; }
 %%
 
 int main() {
-    printf("Enter a number to check weather it ismfloating point number or not ");
+    printf("Enter a number to check weather it is floating point number or not ");
     yylex();
 
     return 0;

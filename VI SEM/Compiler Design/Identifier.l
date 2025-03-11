@@ -2,17 +2,16 @@
     #include <stdio.h>
 %}
 
-%% 
-^[a-zA-Z_][a-zA-Z0-9_]* {printf("Identifier\n");}   
-^[0-9]+ {printf("Not a Identifier\n");}
+%%
+^[a-zA-Z_][a-zA-Z0-9_]* {printf("Valid Identifier");}
+^[^a-zA-Z_\n]+ {printf("Invalid Identifier");}
+.* {printf("Invalid Identifier");}
 \n {return 0;}
 %%
 
 int main() {
-    printf("Enter string you want to check ");
+    printf("Enter string you want to check: ");
     yylex();
-    
-    exit(0);
 
     return 0;
 }
@@ -20,5 +19,3 @@ int main() {
 int yywrap() {
     return 1;
 }
-
-

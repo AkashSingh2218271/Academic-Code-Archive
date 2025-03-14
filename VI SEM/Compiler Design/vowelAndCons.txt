@@ -1,2 +1,1 @@
-My name is akash
-ak
+This is a LEX Code

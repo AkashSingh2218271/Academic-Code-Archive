@@ -10,7 +10,6 @@
 %%
 
 int main() {
-    // Extern file *yyin, *yyout;
     yyin = fopen("vowelAndCons.txt", "r");
     yylex();
     printf("Number of vowels in file is %d\n", vowels_count);

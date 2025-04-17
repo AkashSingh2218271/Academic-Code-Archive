@@ -8,7 +8,6 @@
 %%
 
 int main() {
-    // Open files
     yyin = fopen("extraSpaces.txt", "r");
     yyout = fopen("singleSpaces.txt", "w");
 
@@ -17,10 +16,8 @@ int main() {
         return 1;
     }
 
-    // Start lexical analysis
     yylex();
 
-    // Close files
     fclose(yyin);
     fclose(yyout);
 

@@ -3,7 +3,7 @@
 %}
 
 %%
-^[a-z.0-9]+@[a-z]+.com { printf("%s is a valid email address", yytext); }
+^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ { printf("%s is a valid email address", yytext); }
 .* { printf("%s is not a valid email address", yytext); }
 \n { return 0; }
 %%
